@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advance Happy Birthday My Love ❤️</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎂 Advance Happy Birthday, My Love! 🎉</h1>
+        <p class="message">Wishing you a day filled with love, laughter, and all the happiness in the world. ❤️</p>
+    </div>
+
+    <!-- Balloons -->
+    <div class="balloons"></div>
+
+    <!-- Confetti Effect -->
+    <canvas id="confetti"></canvas>
+
+    <script>// Balloons Floating
+const balloonContainer = document.querySelector('.balloons');
+
+function createBalloon() {
+    const balloon = document.createElement('div');
+    balloon.classList.add('balloon');
+    balloon.style.left = `${Math.random() * 100}vw`;
+    balloon.style.animationDuration = `${3 + Math.random() * 2}s`; 
+    balloonContainer.appendChild(balloon);
+    
+    setTimeout(() => { balloon.remove(); }, 5000);
+}
+
+setInterval(createBalloon, 500);
+
+// Confetti Celebration
+const confetti = document.getElementById("confetti");
+const ctx = confetti.getContext("2d");
+confetti.width = window.innerWidth;
+confetti.height = window.innerHeight;
+
+const confettiPieces = Array.from({ length: 100 }, () => ({
+    x: Math.random() * confetti.width,
+    y: Math.random() * confetti.height,
+    r: Math.random() * 6 + 2,
+    d: Math.random() * 4 + 1,
+    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+    tilt: Math.random() * 5
+}));
+
+function drawConfetti() {
+    ctx.clearRect(0, 0, confetti.width, confetti.height);
+    confettiPieces.forEach((piece) => {
+        ctx.beginPath();
+        ctx.fillStyle = piece.color;
+        ctx.arc(piece.x, piece.y, piece.r, 0, Math.PI * 2);
+        ctx.fill();
+        piece.y += piece.d;
+        piece.x += Math.sin(piece.tilt);
+        if (piece.y > confetti.height) piece.y = 0;
+    });
+    requestAnimationFrame(drawConfetti);
+}
+
+drawConfetti();
+</script>
+</body>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #ff758c, #ff7eb3);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
+    animation: glow 2s infinite alternate;
+    position: relative;
+    z-index: 10;
+}
+
+h1 {
+    font-size: 3em;
+    text-shadow: 3px 3px 10px rgba(255, 255, 255, 0.8);
+    animation: fadeIn 3s ease-in-out;
+}
+
+.message {
+    font-size: 1.5em;
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeIn 3s ease-in-out 1s forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes glow {
+    0% { box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3); }
+    100% { box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.8); }
+}
+
+/* Flying Balloons */
+.balloons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.balloons div {
+    position: absolute;
+    bottom: -100px;
+    width: 50px;
+    height: 60px;
+    background: red;
+    border-radius: 50%;
+    box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.2);
+    animation: fly 5s infinite linear;
+}
+
+@keyframes fly {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Confetti Effect */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}
+
+</style>
+</html>
