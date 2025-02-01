@@ -10,6 +10,12 @@
     <div class="container">
         <h1>🎂 Advance Happy Birthday, My Love! 🎉</h1>
         <p class="message">Wishing you a day filled with love, laughter, and all the happiness in the world. ❤️</p>
+        
+        <!-- Countdown Timer -->
+        <div class="countdown">
+           
+            <p id="timer"></p>
+        </div>
     </div>
 
     <!-- Balloons -->
@@ -18,52 +24,76 @@
     <!-- Confetti Effect -->
     <canvas id="confetti"></canvas>
 
-    <script>// Balloons Floating
-const balloonContainer = document.querySelector('.balloons');
+    <script>
+        // Balloons Floating
+        const balloonContainer = document.querySelector('.balloons');
 
-function createBalloon() {
-    const balloon = document.createElement('div');
-    balloon.classList.add('balloon');
-    balloon.style.left = `${Math.random() * 100}vw`;
-    balloon.style.animationDuration = `${3 + Math.random() * 2}s`; 
-    balloonContainer.appendChild(balloon);
-    
-    setTimeout(() => { balloon.remove(); }, 5000);
-}
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.style.left = `${Math.random() * 100}vw`;
+            balloon.style.animationDuration = `${3 + Math.random() * 2}s`; 
+            balloonContainer.appendChild(balloon);
+            
+            setTimeout(() => { balloon.remove(); }, 5000);
+        }
 
-setInterval(createBalloon, 500);
+        setInterval(createBalloon, 500);
 
-// Confetti Celebration
-const confetti = document.getElementById("confetti");
-const ctx = confetti.getContext("2d");
-confetti.width = window.innerWidth;
-confetti.height = window.innerHeight;
+        // Confetti Celebration
+        const confetti = document.getElementById("confetti");
+        const ctx = confetti.getContext("2d");
+        confetti.width = window.innerWidth;
+        confetti.height = window.innerHeight;
 
-const confettiPieces = Array.from({ length: 100 }, () => ({
-    x: Math.random() * confetti.width,
-    y: Math.random() * confetti.height,
-    r: Math.random() * 6 + 2,
-    d: Math.random() * 4 + 1,
-    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-    tilt: Math.random() * 5
-}));
+        const confettiPieces = Array.from({ length: 100 }, () => ({
+            x: Math.random() * confetti.width,
+            y: Math.random() * confetti.height,
+            r: Math.random() * 6 + 2,
+            d: Math.random() * 4 + 1,
+            color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+            tilt: Math.random() * 5
+        }));
 
-function drawConfetti() {
-    ctx.clearRect(0, 0, confetti.width, confetti.height);
-    confettiPieces.forEach((piece) => {
-        ctx.beginPath();
-        ctx.fillStyle = piece.color;
-        ctx.arc(piece.x, piece.y, piece.r, 0, Math.PI * 2);
-        ctx.fill();
-        piece.y += piece.d;
-        piece.x += Math.sin(piece.tilt);
-        if (piece.y > confetti.height) piece.y = 0;
-    });
-    requestAnimationFrame(drawConfetti);
-}
+        function drawConfetti() {
+            ctx.clearRect(0, 0, confetti.width, confetti.height);
+            confettiPieces.forEach((piece) => {
+                ctx.beginPath();
+                ctx.fillStyle = piece.color;
+                ctx.arc(piece.x, piece.y, piece.r, 0, Math.PI * 2);
+                ctx.fill();
+                piece.y += piece.d;
+                piece.x += Math.sin(piece.tilt);
+                if (piece.y > confetti.height) piece.y = 0;
+            });
+            requestAnimationFrame(drawConfetti);
+        }
 
-drawConfetti();
-</script>
+        drawConfetti();
+
+        // Countdown Timer
+        const timerElement = document.getElementById("timer");
+        const birthdayDate = new Date("March 3, 2025 00:00:00").getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const timeLeft = birthdayDate - now;
+
+            if (timeLeft <= 0) {
+                timerElement.innerHTML = "It's your birthday! 🎉🎂";
+            } else {
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                timerElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+
+        // Update the countdown every second
+        setInterval(updateTimer, 1000);
+    </script>
 </body>
 <style>
 body {
@@ -147,5 +177,22 @@ canvas {
     pointer-events: none;
 }
 
+/* Countdown Timer */
+.countdown {
+    margin-top: 30px;
+    font-size: 2em;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.countdown h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+#timer {
+    font-size: 2em;
+    font-weight: bold;
+}
 </style>
 </html>
